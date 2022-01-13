@@ -21,6 +21,12 @@ namespace PruebaVueling.Infrastructure.Repositories
 
             return transactions;
         }
+        public Transactions GetTransaction(string sku)
+        {
+            Transactions transactions = _context.Transactions.FirstOrDefault(x => x.Sku == sku);
+
+            return transactions;
+        }
 
     }
 }

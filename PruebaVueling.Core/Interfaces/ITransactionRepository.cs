@@ -6,5 +6,6 @@ namespace PruebaVueling.Core.Interfaces
     public interface ITransactionRepository
     {
         IEnumerable<Transactions> GetTransactions();
+        Transactions GetTransaction(string sku);
     }
 }

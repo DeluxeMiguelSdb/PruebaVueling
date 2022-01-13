@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using PruebaVueling.Core.Entities;
+using PruebaVueling.Infrastructure.Data.Configurations;
 
 namespace PruebaVueling.Infrastructure.Data
 {
@@ -21,55 +20,9 @@ namespace PruebaVueling.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Rates>(entity =>
-            {
-                entity.HasNoKey();
+            modelBuilder.ApplyConfiguration(new RateConfiguration());
 
-                entity.ToTable("rates");
-
-                entity.Property(e => e.From)
-                    .HasColumnName("from")
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Rate)
-                    .HasColumnName("rate")
-                    .HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.To)
-                    .HasColumnName("to")
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Transactions>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("transactions");
-
-                entity.Property(e => e.Aomunt)
-                    .HasColumnName("aomunt")
-                    .HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.Currency)
-                    .HasColumnName("currency")
-                    .HasMaxLength(2)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Sku)
-                    .HasColumnName("sku")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
-            });
+            modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
 
         }
