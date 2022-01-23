@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PruebaVueling.Core.Entities;
+using PruebaVueling.Data.Entities;
 using PruebaVueling.Infrastructure.Data.Configurations;
 
 namespace PruebaVueling.Infrastructure.Data

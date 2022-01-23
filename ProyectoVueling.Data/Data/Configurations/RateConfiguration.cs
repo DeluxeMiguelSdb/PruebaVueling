@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PruebaVueling.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using PruebaVueling.Data.Entities;
 
 namespace PruebaVueling.Infrastructure.Data.Configurations
 {
@@ -11,22 +8,27 @@ namespace PruebaVueling.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Rates> builder)
         {
-            builder.HasNoKey();
-
             builder.ToTable("rates");
+
+            builder.HasKey(e => e.Id).HasName("id");
+
+            builder.Property(e => e.Id).HasColumnName("id");
 
             builder.Property(e => e.From)
                 .HasColumnName("from")
                 .HasMaxLength(3)
                 .IsUnicode(false);
 
-            builder.Property(e => e.Id)
-                .HasColumnName("id")
-                .ValueGeneratedOnAdd();
+            //builder.Property(e => e.Id)
+            //    .HasColumnName("id")
+            //    .ValueGeneratedOnAdd();
+            //  TODO: Revisar valuegeneratedonadd. Esta presente en los rates pero no estaba en 
+            //  Transactions
+
 
             builder.Property(e => e.Rate)
                 .HasColumnName("rate")
-                .HasColumnType("decimal(18, 0)");
+                .HasColumnType("float(53)");
 
             builder.Property(e => e.To)
                 .HasColumnName("to")

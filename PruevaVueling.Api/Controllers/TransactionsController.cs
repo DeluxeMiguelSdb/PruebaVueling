@@ -1,39 +1,51 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PruebaVueling.Core.Entities;
 using PruebaVueling.Core.Interfaces;
+using PruebaVueling.Data.Entities;
+using PruebaVueling.Infrastructure.DTOs;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PruebaVueling.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionsController : Controller
+    public class TransactionsController : ControllerBase
     {
-        private readonly ITransactionRepository _transactionRepository;
-        private readonly IMapper _mapper;
-        public TransactionsController(ITransactionRepository transactionRepository, IMapper mapper)
+        private readonly ITransactionService _transactionService;
+        public TransactionsController(ITransactionService transactionService)
         {
-            _transactionRepository = transactionRepository;
-            _mapper = mapper;
+            _transactionService = transactionService;
         }
 
         [HttpGet]
-        public IActionResult GetTransactions()
+        public async Task<IActionResult> GetTransactions()
         {
-            //var transactions = new TransactionRepository().GetTransactions();
-            //var transactions = _webClient.DownloadString("http://quiet-stone-2094.herokuapp.com/transactions.json");
-            IEnumerable<Transactions> transactions = _transactionRepository.GetTransactions();
-            return Ok(transactions);
+            try
+            {
+                List<TransactionsDto> transactions = await _transactionService.GetTransactions();
+                return Ok(transactions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet("{sku}")]
-        public IActionResult GetTransaction(string sku)
+        public async Task<IActionResult> GetTransaction(string sku)
         {
-            //var transactions = new TransactionRepository().GetTransactions();
-            //var transactions = _webClient.DownloadString("http://quiet-stone-2094.herokuapp.com/transactions.json");
-            Transactions transaction = _transactionRepository.GetTransaction(sku);
-            return Ok(transaction);
+            try 
+            {
+                TransactionTotalListDto transactions = await _transactionService.GetTransaction(sku);
+                return Ok(transactions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            
         }
     }
 }

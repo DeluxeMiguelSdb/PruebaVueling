@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using PruebaVueling.Core.DTOs;
-using PruebaVueling.Core.Entities;
+using PruebaVueling.Infrastructure.DTOs;
+using PruebaVueling.Data.Entities;
 
 namespace PruebaVueling.Infrastructure.Mappings
 {
@@ -8,8 +8,11 @@ namespace PruebaVueling.Infrastructure.Mappings
     {
         public AutoMapperProfile() 
         {
-            CreateMap<Transactions, TransactionDto>();
-            CreateMap<TransactionDto, Transactions>();
+            CreateMap<Transactions, TransactionsDto>();
+            CreateMap<TransactionsDto, Transactions>();
+
+            CreateMap<Rates, RatesDto>();
+            CreateMap<RatesDto, Rates>();
         }
     }
 }

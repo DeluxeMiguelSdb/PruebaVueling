@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PruebaVueling.Infrastructure\PruebaVueling.Infrastructure.csproj" />
+    <ProjectReference Include="..\PruebaVueling.Core\PruebaVueling.Core.csproj" />
   </ItemGroup>
 
 

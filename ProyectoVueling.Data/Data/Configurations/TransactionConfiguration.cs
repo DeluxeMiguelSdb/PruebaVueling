@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PruebaVueling.Core.Entities;
+using PruebaVueling.Data.Entities;
 
 namespace PruebaVueling.Infrastructure.Data.Configurations
 {
@@ -8,22 +8,22 @@ namespace PruebaVueling.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Transactions> builder)
         {
-            builder.HasNoKey();
+            
 
                 builder.ToTable("transactions");
 
-                builder.Property(e => e.Aomunt)
-                    .HasColumnName("aomunt")
-                    .HasColumnType("decimal(18, 0)");
+                builder.HasKey(e => e.Id).HasName("id");
 
-                builder.Property(e => e.Currency)
+                builder.Property(e => e.Id).HasColumnName("id");
+
+                builder.Property(e => e.Amount)
+                    .HasColumnName("amount")
+                    .HasColumnType("float(53)");
+
+            builder.Property(e => e.Currency)
                     .HasColumnName("currency")
-                    .HasMaxLength(2)
+                    .HasMaxLength(3)
                     .IsUnicode(false);
-
-                builder.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
 
                 builder.Property(e => e.Sku)
                     .HasColumnName("sku")

@@ -1,9 +1,9 @@
-﻿using PruebaVueling.Core.Entities;
+﻿using PruebaVueling.Data.Entities;
 using System.Collections.Generic;
 
-namespace PruebaVueling.Core.DTOs
+namespace PruebaVueling.Infrastructure.DTOs
 {
-    public class TransactionDto
+    public class TransactionTotalListDto
     {
         public IList<Transactions> Transaction { get; set; }
         public decimal? Total { get; set; }

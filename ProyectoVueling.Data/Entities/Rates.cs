@@ -1,4 +1,4 @@
-﻿namespace PruebaVueling.Core.Entities
+﻿namespace PruebaVueling.Data.Entities
 {
     public partial class Rates
     {

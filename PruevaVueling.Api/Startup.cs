@@ -6,7 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PruebaVueling.Core.Interfaces;
+using PruebaVueling.Core.Logic;
+using PruebaVueling.Core.Services;
 using PruebaVueling.Infrastructure.Data;
+using PruebaVueling.Infrastructure.Interfaces;
+using PruebaVueling.Infrastructure.Mappings;
 using PruebaVueling.Infrastructure.Repositories;
 using System;
 using System.Net;
@@ -34,7 +38,11 @@ namespace PruevaVueling.Api
 
             //dependencies
             services.AddTransient<ITransactionRepository, TransactionRepository>();
-            services.AddTransient<WebClient, WebClient>();
+            services.AddTransient<IRateRepository, RateRepository>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IRateService, RateService>();
+            services.AddTransient<ITransactionLogic, TransactionLogic>();
+            services.AddTransient<ITransactionMapper, TransactionMapper>();
 
             //BBDD Connection
             services.AddDbContext<PruebaVuelingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PruebaVueling")));

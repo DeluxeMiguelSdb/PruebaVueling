@@ -12,10 +12,10 @@ CREATE TABLE rates (
 	rate		decimal
 );
 
-
-INSERT INTO transactions values ('S2006',33.33,'EU')
-
-
-SELECT * from dbo.transactions
+CREATE TABLE exceptionslog (
+	id				int IDENTITY(1,1) PRIMARY KEY,
+	description		varchar(MAX),
+	creation_date	DATETIME
+);
 
 DROP TABLE dbo.transactions
