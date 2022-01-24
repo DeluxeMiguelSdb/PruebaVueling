@@ -22,7 +22,7 @@ namespace PruebaVueling.Infrastructure.Repositories
             return rates;
         }
 
-        public async Task PersistRates(IList<Rates> rates)
+        public async Task PersistRates (List<Rates> rates)
         {
             _context.RemoveRange(_context.Rates.ToList());
 

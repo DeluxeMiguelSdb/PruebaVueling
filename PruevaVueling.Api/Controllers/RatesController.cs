@@ -14,9 +14,11 @@ namespace PruebaVueling.Api.Controllers
     public class RatesController : ControllerBase
     {
         private readonly IRateService _rateService;
-        public RatesController(IRateService rateService)
+        private readonly IExceptionlogRepository _exceptionlogRepository;
+        public RatesController(IRateService rateService, IExceptionlogRepository exceptionlogRepository)
         {
             _rateService = rateService;
+            _exceptionlogRepository = exceptionlogRepository;
         }
 
         [HttpGet]
@@ -24,11 +26,12 @@ namespace PruebaVueling.Api.Controllers
         {
             try
             {
-                IList<RatesDto> rates = await _rateService.GetRates();
+                List<RatesDto> rates = await _rateService.GetRates();
                 return Ok(rates);
             }
             catch (Exception ex)
             {
+                _exceptionlogRepository.InsertExceptionLog(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
                 

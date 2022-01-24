@@ -36,7 +36,7 @@ namespace PruebaVueling.Core.Services
 
                 if (rates.Count > 0)
                 {
-                    _rateRepository.PersistRates(rates);
+                    await _rateRepository.PersistRates(rates);
 
                     List<RatesDto> ratesDto = _mapper.Map<List<RatesDto>>(rates);
                     return ratesDto;
@@ -51,7 +51,7 @@ namespace PruebaVueling.Core.Services
                         return ratesDto;
                     }
 
-                    throw new Exception("Client data not valid and there is no data in BBDD");
+                    throw new Exception(Resources.ErrorFetchingRates);
                 }
 
             }

@@ -1,5 +1,4 @@
-﻿using PruebaVueling.Data.Entities;
-using PruebaVueling.Infrastructure.DTOs;
+﻿using PruebaVueling.Infrastructure.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -14,9 +14,11 @@ namespace PruebaVueling.Api.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        public TransactionsController(ITransactionService transactionService)
+        private readonly IExceptionlogRepository _exceptionlogRepository;
+        public TransactionsController(ITransactionService transactionService, IExceptionlogRepository exceptionlogRepository)
         {
             _transactionService = transactionService;
+            _exceptionlogRepository = exceptionlogRepository;
         }
 
         [HttpGet]
@@ -29,6 +31,7 @@ namespace PruebaVueling.Api.Controllers
             }
             catch (Exception ex)
             {
+                _exceptionlogRepository.InsertExceptionLog(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -38,11 +41,13 @@ namespace PruebaVueling.Api.Controllers
         {
             try 
             {
+                
                 TransactionTotalListDto transactions = await _transactionService.GetTransaction(sku);
                 return Ok(transactions);
             }
             catch (Exception ex)
             {
+                _exceptionlogRepository.InsertExceptionLog(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
             

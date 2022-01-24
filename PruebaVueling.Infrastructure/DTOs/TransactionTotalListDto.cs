@@ -5,7 +5,7 @@ namespace PruebaVueling.Infrastructure.DTOs
 {
     public class TransactionTotalListDto
     {
-        public IList<Transactions> Transaction { get; set; }
+        public List<TransactionsDto> Transaction { get; set; }
         public decimal? Total { get; set; }
     }
 }

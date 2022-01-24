@@ -1,7 +1,9 @@
-﻿using PruebaVueling.Core.Interfaces;
+﻿using AutoMapper;
+using PruebaVueling.Core.Interfaces;
 using PruebaVueling.Data.Entities;
 using PruebaVueling.Infrastructure.DTOs;
 using PruebaVueling.Infrastructure.Interfaces;
+using PruebaVueling.Infrastructure.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +13,17 @@ namespace PruebaVueling.Core.Logic
     public class TransactionLogic : ITransactionLogic
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IRateRepository _rateRepository;
         private readonly ITransactionMapper _transactionMapper;
-        private readonly IRateService _rateService;
+        private readonly IMapper _mapper;
 
-        public TransactionLogic(ITransactionRepository transactionRepository, IRateRepository rateRepository
-                                    ,ITransactionMapper transactionMapper, IRateService rateService) 
+        public TransactionLogic(ITransactionRepository transactionRepository, ITransactionMapper transactionMapper, IMapper mapper) 
         {
             _transactionRepository = transactionRepository;
-            _rateRepository = rateRepository;
             _transactionMapper = transactionMapper;
-            _rateService = rateService;
+            _mapper = mapper;
         }
 
-        public TransactionTotalListDto ConvertCurrency(string sku, List<RatesDto> ratesConversions, List<Transactions> transactionList = null)
+        public TransactionTotalListDto ConvertCurrency(string sku, List<RatesDto> ratesConversions,string currencyTo, List<Transactions> transactionList = null)
         {
             List<Transactions> filteredList; 
 
@@ -41,123 +40,70 @@ namespace PruebaVueling.Core.Logic
             {
                 foreach (Transactions transaction in filteredList) 
                 {
-                    if (!transaction.Currency.Equals("EUR"))
+                    if (!transaction.Currency.Equals(currencyTo))
                     {
-                        decimal? rate = ratesConversions.Where(ef => ef.To == "EUR" && ef.From == transaction.Currency)
-                                                        .Select(ef => ef.Rate).FirstOrDefault();
-
-                        if (rate != null)
-                        {
-                            transaction.Amount *= rate;
-                        }
-                        else
-                        {
-                            transaction.Amount = CalculateRatesByAnothers(transaction, rate, ratesConversions);
-                        }
-
-                        transaction.Currency = "EUR";
+                        transaction.Amount = CalculateRate(transaction.Amount, transaction.Currency, currencyTo, ratesConversions);
                     }
+
+                    transaction.Currency = currencyTo;
                 }
 
-                return _transactionMapper.ToTransactionDTOMap(filteredList, (decimal)filteredList.Sum(ef => ef.Amount));
+                List<TransactionsDto> filteredListDto = _mapper.Map<List<TransactionsDto>>(filteredList);
+
+                return _transactionMapper.ToTransactionDTOMap(filteredListDto, (decimal)filteredList.Sum(ef => ef.Amount));
             }
             else
             {
-                throw new Exception(String.Format("Transaction {0} not found",sku));
+                throw new Exception(String.Format(Resources.ErrorConversionCurrency,sku));
             }
 
             
         }
 
-        private decimal? CalculateRatesByAnothers(Transactions transaction, decimal? rate, List<RatesDto> ratesConversions)
+        /// <summary>
+        /// Method that searches for currency conversions and calculates non-existing ones
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="ratesConversion"></param>
+        /// <param name="notReturnValue"></param>
+        /// <returns></returns>
+        private decimal? CalculateRate(decimal? amount,string from, string to,List<RatesDto> ratesConversion,string notReturnValue = null) 
         {
-            //TODO: RECURRENCIA
-            if (rate == null)
+            //  Looking for direct conversion
+            RatesDto directRate = ratesConversion.Where(ef => ef.From == from && ef.To == to).FirstOrDefault();
+
+            if (directRate != null)
             {
-                List<RatesDto> baseRates = ratesConversions.Where(ef => ef.From == transaction.Currency).ToList();
-
-                foreach (RatesDto baseRate in baseRates)
-                {
-                    RatesDto bridgeRate = ratesConversions.Where(ef => ef.From == baseRate.To && ef.To == "EUR").FirstOrDefault();
-
-                    if (bridgeRate != null) 
-                    {
-                        transaction.Amount = transaction.Amount * baseRate.Rate * bridgeRate.Rate;
-
-                        return transaction.Amount;
-                    }
-                    return null;
-                }
-
+                return amount *= directRate.Rate;
             }
-
-            return null;
-        }
-
-        private decimal? CalculateRate(decimal? amount,string from, string to,List<Rates> ratesConversion,decimal? acumulatedRate = 0) 
-        {
-            //TODO: Terminar este código
-            IList<Rates> baseRates = ratesConversion.Where(ef => ef.From == from).ToList();
-
-            foreach (Rates baseRate in baseRates)
+            //  If its not posible, look for indirect conversions
+            else
             {
-                //  Looking for direct conversion
-                Rates finalRate = ratesConversion.Where(ef => ef.From == baseRate.To && ef.To == to).FirstOrDefault();
+                List<RatesDto> indirectRates = ratesConversion.Where(ef => ef.From == from).ToList();
 
-                if (finalRate != null)
+                foreach (RatesDto indirectRate in indirectRates)
                 {
-                    if (acumulatedRate != 0)
-                    {
-                        amount *= acumulatedRate * baseRate.Rate;
-                    }
-                    else
-                    {
-                        amount *= baseRate.Rate;
-                    }
+                    RatesDto bridgeRate = ratesConversion.Where(ef => ef.From == indirectRate.To && ef.To == to).FirstOrDefault();
 
-                    return amount;
-                }
-                //  If its not posible, look for indirect conversions
-                else 
-                {
-                    List<Rates> bridgeRates = ratesConversion.Where(ef => ef.From == baseRate.To).ToList();
-
-                    foreach (Rates bridgeRate in bridgeRates)
+                    if (bridgeRate != null)
                     {
-                        if (bridgeRate.To != to && bridgeRate.To != from)
+                        return amount *= indirectRate.Rate * bridgeRate.Rate;
+                    }
+                    else if(indirectRate.To != notReturnValue)
+                    {
+                        amount *= indirectRate.Rate;
+                        decimal? finalAmount = CalculateRate(amount, indirectRate.To, to, ratesConversion, indirectRate.From);
+
+                        if (finalAmount != null)
                         {
-                            if (acumulatedRate != 0)
-                            {
-                                acumulatedRate *= baseRate.Rate * bridgeRate.Rate;
-                            }
-                            else
-                            {
-                                acumulatedRate = baseRate.Rate * bridgeRate.Rate;
-                            }
-
-
-                            CalculateRate(amount, bridgeRate.To, to, ratesConversion, acumulatedRate);
+                            return finalAmount;
                         }
-                        else if (bridgeRate.To == to)
-                        {
-                            if (acumulatedRate != 0)
-                            {
-                                amount *= acumulatedRate * baseRate.Rate;
-                            }
-                            else
-                            {
-                                amount *= baseRate.Rate;
-                            }
-
-                            return amount;
-
-                        }
-
                     }
-                }
 
+                }
             }
-
             return null;
         }
     }

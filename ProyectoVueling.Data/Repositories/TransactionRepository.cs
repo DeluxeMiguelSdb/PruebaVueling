@@ -28,7 +28,7 @@ namespace PruebaVueling.Infrastructure.Repositories
             return transactions;
         }
 
-        public void PersistTransactions(List<Transactions> transactions)
+        public async Task PersistTransactions(List<Transactions> transactions)
         {
             _context.RemoveRange(_context.Transactions.ToList());
 
@@ -37,7 +37,7 @@ namespace PruebaVueling.Infrastructure.Repositories
                 _context.Transactions.Add(transaction);
             }
 
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
     }

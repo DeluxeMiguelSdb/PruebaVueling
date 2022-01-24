@@ -19,13 +19,6 @@ namespace PruebaVueling.Infrastructure.Data.Configurations
                 .HasMaxLength(3)
                 .IsUnicode(false);
 
-            //builder.Property(e => e.Id)
-            //    .HasColumnName("id")
-            //    .ValueGeneratedOnAdd();
-            //  TODO: Revisar valuegeneratedonadd. Esta presente en los rates pero no estaba en 
-            //  Transactions
-
-
             builder.Property(e => e.Rate)
                 .HasColumnName("rate")
                 .HasColumnType("float(53)");

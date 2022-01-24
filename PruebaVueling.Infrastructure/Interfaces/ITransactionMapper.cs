@@ -6,6 +6,6 @@ namespace PruebaVueling.Infrastructure.Interfaces
 {
     public interface ITransactionMapper
     {
-        TransactionTotalListDto ToTransactionDTOMap(IList<Transactions> transactions, decimal total);
+        TransactionTotalListDto ToTransactionDTOMap(List<TransactionsDto> transactions, decimal total);
     }
 }

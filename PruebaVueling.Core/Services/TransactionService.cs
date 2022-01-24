@@ -17,13 +17,15 @@ namespace PruebaVueling.Core.Services
         private readonly ITransactionLogic _transactionLogic;
         private readonly IMapper _mapper;
         private readonly IRateService _rateService;
+        private readonly IExceptionlogRepository _exceptionlogRepository;
         public TransactionService(ITransactionRepository transactionRepository, ITransactionLogic transactionLogic, IMapper mapper,
-                                    IRateService rateService)
+                                    IRateService rateService, IExceptionlogRepository exceptionlogRepository)
         {
             _transactionRepository = transactionRepository;
             _transactionLogic = transactionLogic;
             _mapper = mapper;
             _rateService = rateService;
+            _exceptionlogRepository = exceptionlogRepository;
         }
 
 
@@ -41,7 +43,7 @@ namespace PruebaVueling.Core.Services
 
                 if (transactions.Count > 0)
                 {
-                    _transactionRepository.PersistTransactions(transactions);
+                    await _transactionRepository.PersistTransactions(transactions);
 
                     List<TransactionsDto> transactionsDto = _mapper.Map<List<TransactionsDto>>(transactions);
                     return transactionsDto;
@@ -57,7 +59,7 @@ namespace PruebaVueling.Core.Services
                         return transactionsDto;
                     }
 
-                    throw new Exception("Client data not valid and there is no data in BBDD");
+                    throw new Exception(Resources.ErrorFetchingTransactions);
                 }
             }
             catch (WebException ex)
@@ -86,10 +88,10 @@ namespace PruebaVueling.Core.Services
 
                 if (transactions.Count > 0)
                 {
-                    _transactionRepository.PersistTransactions(transactions);
+                    await _transactionRepository.PersistTransactions(transactions);
 
                     List<RatesDto> ratesConversions = await _rateService.GetRates();
-                    return _transactionLogic.ConvertCurrency(sku, ratesConversions, transactions);
+                    return _transactionLogic.ConvertCurrency(sku, ratesConversions, Constants.EUR_CURRENCY, transactions);
                 }
                 else
                 {
@@ -99,15 +101,16 @@ namespace PruebaVueling.Core.Services
                     if (transactions.Count > 0)
                     {
                         List<RatesDto> ratesConversions = await _rateService.GetRates();
-                        return _transactionLogic.ConvertCurrency(sku, ratesConversions, transactions);
+                        return _transactionLogic.ConvertCurrency(sku, ratesConversions, Constants.EUR_CURRENCY, transactions);
                     }
-                    throw new Exception("Client data not valid and there is no data in BBDD");
+                    
+                    throw new Exception(Resources.ErrorFetchingTransactions);
                 }
             }
             catch (WebException ex)
             {
                 List<RatesDto> ratesConversions = await _rateService.GetRates();
-                TransactionTotalListDto transactionsTotalList =  _transactionLogic.ConvertCurrency(sku, ratesConversions);
+                TransactionTotalListDto transactionsTotalList =  _transactionLogic.ConvertCurrency(sku, ratesConversions, Constants.EUR_CURRENCY);
 
                 return transactionsTotalList;
             }

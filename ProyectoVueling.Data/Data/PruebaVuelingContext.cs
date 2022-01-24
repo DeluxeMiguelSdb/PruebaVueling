@@ -15,15 +15,15 @@ namespace PruebaVueling.Infrastructure.Data
         {
         }
 
+        public virtual DbSet<Exceptionslog> Exceptionslog { get; set; }
         public virtual DbSet<Rates> Rates { get; set; }
         public virtual DbSet<Transactions> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RateConfiguration());
-
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
-
+            modelBuilder.ApplyConfiguration(new ExceptionsLogConfiguration());
 
         }
     }

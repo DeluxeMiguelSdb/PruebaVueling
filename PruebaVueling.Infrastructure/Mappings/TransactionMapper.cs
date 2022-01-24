@@ -7,7 +7,7 @@ namespace PruebaVueling.Infrastructure.Mappings
 {
     public class TransactionMapper : ITransactionMapper
     {
-        public TransactionTotalListDto ToTransactionDTOMap(IList<Transactions> transactions, decimal total) 
+        public TransactionTotalListDto ToTransactionDTOMap(List<TransactionsDto> transactions, decimal total) 
         {
             return new TransactionTotalListDto()
             {

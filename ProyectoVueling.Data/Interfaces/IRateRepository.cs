@@ -7,6 +7,6 @@ namespace PruebaVueling.Core.Interfaces
     public interface IRateRepository
     {
         Task<List<Rates>> GetRates();
-        Task PersistRates(IList<Rates> rates);
+        Task PersistRates(List<Rates> rates);
     }
 }

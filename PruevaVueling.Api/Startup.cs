@@ -43,6 +43,7 @@ namespace PruevaVueling.Api
             services.AddTransient<IRateService, RateService>();
             services.AddTransient<ITransactionLogic, TransactionLogic>();
             services.AddTransient<ITransactionMapper, TransactionMapper>();
+            services.AddTransient<IExceptionlogRepository, ExceptionlogRepository>();
 
             //BBDD Connection
             services.AddDbContext<PruebaVuelingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PruebaVueling")));

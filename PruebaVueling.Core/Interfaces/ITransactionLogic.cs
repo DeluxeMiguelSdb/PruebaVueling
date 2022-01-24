@@ -6,6 +6,6 @@ namespace PruebaVueling.Core.Interfaces
 {
     public interface ITransactionLogic
     {
-        TransactionTotalListDto ConvertCurrency(string sku, List<RatesDto> ratesConversions, List<Transactions> transactionList = null);
+        TransactionTotalListDto ConvertCurrency(string sku, List<RatesDto> ratesConversions, string currency, List<Transactions> transactionList = null);
     }
 }

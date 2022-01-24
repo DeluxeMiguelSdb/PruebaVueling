@@ -8,6 +8,6 @@ namespace PruebaVueling.Core.Interfaces
     {
         Task<List<Transactions>> GetTransactions();
         List<Transactions> GetTransactionsBySku(string sku);
-        void PersistTransactions(List<Transactions> transactions);
+        Task PersistTransactions(List<Transactions> transactions);
     }
 }
