@@ -10,3 +10,4 @@ Instrucciones de ejecución:
   a) /api/transactions -> Devuelve todas las transacciones</br>
   b) /api/transactions/{sku} -> Devuelve todas las transacciones con esa sku y su total en Euros</br>
   c) /api/rates -> Devuelve todos los rates
+  
