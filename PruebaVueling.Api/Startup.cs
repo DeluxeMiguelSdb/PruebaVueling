@@ -15,7 +15,7 @@ using PruebaVueling.Infrastructure.Repositories;
 using System;
 using System.Net;
 
-namespace PruevaVueling.Api
+namespace PruebaVueling.Api
 {
     public class Startup
     {

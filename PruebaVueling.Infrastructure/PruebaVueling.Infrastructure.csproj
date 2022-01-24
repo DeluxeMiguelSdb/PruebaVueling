@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProyectoVueling.Data\PruebaVueling.Data.csproj" />
+    <ProjectReference Include="..\PruebaVueling.Data\PruebaVueling.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

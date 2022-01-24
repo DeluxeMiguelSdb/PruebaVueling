@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.Api", "PruevaVueling.Api\PruebaVueling.Api.csproj", "{171DBA6D-0197-4E27-8247-3DD03D846F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.Api", "PruebaVueling.Api\PruebaVueling.Api.csproj", "{171DBA6D-0197-4E27-8247-3DD03D846F51}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.Core", "PruebaVueling.Core\PruebaVueling.Core.csproj", "{16E83380-4D42-4DE0-9794-1A21850470A5}"
 EndProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6D87B065
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.UnitTests", "PruebaVueling.UnitTests\PruebaVueling.UnitTests.csproj", "{8C0F5347-9137-4A4D-ADEC-372F01FB10F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.Data", "ProyectoVueling.Data\PruebaVueling.Data.csproj", "{B814435C-5FB2-42CF-A31E-2C448625BE11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruebaVueling.Data", "PruebaVueling.Data\PruebaVueling.Data.csproj", "{B814435C-5FB2-42CF-A31E-2C448625BE11}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PruebaVueling.DataBase", "PruebaVueling.DataBase\PruebaVueling.DataBase.sqlproj", "{79F80164-0D46-4E8F-BA60-B7FA6785E507}"
 EndProject

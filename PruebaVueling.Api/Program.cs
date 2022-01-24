@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PruevaVueling.Api
+namespace PruebaVueling.Api
 {
     public class Program
     {
