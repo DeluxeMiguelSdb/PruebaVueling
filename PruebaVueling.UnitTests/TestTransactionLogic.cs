@@ -3,12 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PruebaVueling.Core.Interfaces;
 using PruebaVueling.Core.Logic;
-using PruebaVueling.Core.Services;
 using PruebaVueling.Data.Entities;
 using PruebaVueling.Infrastructure.DTOs;
-using PruebaVueling.Infrastructure.Interfaces;
 using PruebaVueling.Infrastructure.Mappings;
-using System;
 using System.Collections.Generic;
 
 namespace PruebaVueling.UnitTests
@@ -30,7 +27,7 @@ namespace PruebaVueling.UnitTests
             }
         }
         [TestMethod]
-        public void TesConvertCurrency()
+        public void TestConvertCurrency()
         {
             Mock <ITransactionRepository> transactionRepository= new Mock<ITransactionRepository>();
             TransactionMapper transactionMapper = new TransactionMapper();
