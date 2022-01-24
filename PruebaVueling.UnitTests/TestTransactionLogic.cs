@@ -30,7 +30,7 @@ namespace PruebaVueling.UnitTests
             }
         }
         [TestMethod]
-        public void TestMethod1()
+        public void TesConvertCurrency()
         {
             Mock <ITransactionRepository> transactionRepository= new Mock<ITransactionRepository>();
             TransactionMapper transactionMapper = new TransactionMapper();
@@ -117,7 +117,7 @@ namespace PruebaVueling.UnitTests
 
             TransactionTotalListDto transactionTotalListDtos = transactionLogic.ConvertCurrency(sku, ratesConversions, currencyTo, transactionList);
 
-            // Total = 30.80 (correct currency) + ( 156.04 -> (25.55 * 0.91 (CAD -> USD) * 1.55 (USD -> EUR) * 4.33 (EUR -> AUD))) = 186,84
+            // Total = 30.80 (correct currency) + ( 156.04 -> (25.55 * 0.91 (CAD -> USD) * 1.55 (USD -> EUR) * 4.33 (EUR -> AUD))) = 186,84573075
             decimal? total = (decimal?)186.84573075;
 
             Assert.AreEqual(total, transactionTotalListDtos.Total);
