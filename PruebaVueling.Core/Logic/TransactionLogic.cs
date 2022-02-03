@@ -23,6 +23,14 @@ namespace PruebaVueling.Core.Logic
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Converts currencies to euros, calculating the exchange rates if necessary
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <param name="ratesConversions"></param>
+        /// <param name="currencyTo"></param>
+        /// <param name="transactionList"></param>
+        /// <returns></returns>
         public TransactionTotalListDto ConvertCurrency(string sku, List<RatesDto> ratesConversions,string currencyTo, List<Transactions> transactionList = null)
         {
             List<Transactions> filteredList; 
@@ -61,7 +69,7 @@ namespace PruebaVueling.Core.Logic
         }
 
         /// <summary>
-        /// Method that searches for currency conversions and calculates non-existing ones
+        /// Searches for currency conversions and calculates non-existing ones
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="from"></param>

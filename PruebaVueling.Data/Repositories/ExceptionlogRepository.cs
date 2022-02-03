@@ -15,6 +15,10 @@ namespace PruebaVueling.Infrastructure.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Inserts exception logs into database
+        /// </summary>
+        /// <param name="description"></param>
         public void InsertExceptionLog(string description)
         {
             _context.Exceptionslog.Add(new Exceptionslog

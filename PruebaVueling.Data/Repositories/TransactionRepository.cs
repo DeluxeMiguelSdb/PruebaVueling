@@ -15,12 +15,22 @@ namespace PruebaVueling.Infrastructure.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Gets transactions from the database
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Transactions>> GetTransactions()
         {
             List<Transactions> transactions = _context.Transactions.ToList();
 
             return transactions;
         }
+
+        /// <summary>
+        /// Gets transactions by SKU from the database
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <returns></returns>
         public List<Transactions> GetTransactionsBySku(string sku)
         {
             List<Transactions> transactions = _context.Transactions.Where(x => x.Sku == sku).ToList();
@@ -28,6 +38,11 @@ namespace PruebaVueling.Infrastructure.Repositories
             return transactions;
         }
 
+        /// <summary>
+        /// Persists transactions in database
+        /// </summary>
+        /// <param name="transactions"></param>
+        /// <returns></returns>
         public async Task PersistTransactions(List<Transactions> transactions)
         {
             _context.RemoveRange(_context.Transactions.ToList());

@@ -28,7 +28,10 @@ namespace PruebaVueling.Core.Services
             _exceptionlogRepository = exceptionlogRepository;
         }
 
-
+        /// <summary>
+        /// Gets transactions from herokuapp or from database if herokuapp is not available
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<TransactionsDto>> GetTransactions()
         {
             try {
@@ -72,7 +75,11 @@ namespace PruebaVueling.Core.Services
 
         }
 
-
+        /// <summary>
+        /// Gets the total sum in euro of the transaction entered
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <returns></returns>
         public async Task<TransactionTotalListDto> GetTransaction(string sku)
         {
             try

@@ -13,7 +13,9 @@ using PruebaVueling.Infrastructure.Interfaces;
 using PruebaVueling.Infrastructure.Mappings;
 using PruebaVueling.Infrastructure.Repositories;
 using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 
 namespace PruebaVueling.Api
 {
@@ -47,6 +49,16 @@ namespace PruebaVueling.Api
 
             //BBDD Connection
             services.AddDbContext<PruebaVuelingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PruebaVueling")));
+
+            //Swagger
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Prueba Vueling" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +70,14 @@ namespace PruebaVueling.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options => 
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Prueba Vueling");
+                options.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

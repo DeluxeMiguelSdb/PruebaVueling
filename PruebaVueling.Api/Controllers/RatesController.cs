@@ -21,6 +21,10 @@ namespace PruebaVueling.Api.Controllers
             _exceptionlogRepository = exceptionlogRepository;
         }
 
+        /// <summary>
+        /// Gets rates from herokuapp or from database if herokuapp is not available
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetRates()
         {

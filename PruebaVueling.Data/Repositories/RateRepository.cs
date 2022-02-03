@@ -15,6 +15,10 @@ namespace PruebaVueling.Infrastructure.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Gets rates from database
+        /// </summary>
+        /// <returns></returns>
         public async Task <List<Rates>> GetRates()
         {
             List<Rates> rates = _context.Rates.ToList();
@@ -22,6 +26,11 @@ namespace PruebaVueling.Infrastructure.Repositories
             return rates;
         }
 
+        /// <summary>
+        /// Persists rates in database
+        /// </summary>
+        /// <param name="rates"></param>
+        /// <returns></returns>
         public async Task PersistRates (List<Rates> rates)
         {
             _context.RemoveRange(_context.Rates.ToList());

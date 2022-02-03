@@ -21,6 +21,10 @@ namespace PruebaVueling.Api.Controllers
             _exceptionlogRepository = exceptionlogRepository;
         }
 
+        /// <summary>
+        /// Gets transactions from herokuapp or from database if herokuapp is not available
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetTransactions()
         {
@@ -36,6 +40,11 @@ namespace PruebaVueling.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the total sum in euro of the transaction entered
+        /// </summary>
+        /// <param name="sku"></param>
+        /// <returns></returns>
         [HttpGet("{sku}")]
         public async Task<IActionResult> GetTransaction(string sku)
         {
